@@ -1,0 +1,598 @@
+###############################################################"
+<Task_bord_card@MDFloatLayout>:
+    radius: [20, ]
+    pos_hint: {"center_x": .5, "center_y": .5}
+    bor_color: "blue"
+    date_time: ""
+    note: ""
+    task_name: ""
+    contour_color: "blue"
+    image_name_out:  "check_icon.png"
+    MDFloatLayout:
+        pos_hint: {"center_x": .5, "center_y": .5}
+        md_bg_color: root.bor_color
+        radius: [20, ]
+        MDFloatLayout:
+            pos_hint: {"center_x": .52, "center_y": .5}
+            md_bg_color: "white"
+            radius: [20, ]
+            line_color: root.contour_color
+            MDLabel:
+                text: root.task_name
+                theme_text_color: "Custom"
+                text_color: "black"
+                bold: True
+                pos_hint: {"x": .1, "center_y": .75}
+                font_size: "20sp"
+                opacity: 0.7
+            MDLabel:
+                text: root.note
+                theme_text_color: "Custom"
+                text_color: "black"
+                pos_hint: {"x": .15, "center_y": .5}
+                font_size: "17sp"
+                bold: True
+                opacity: 0.8
+            MDLabel:
+                text: root.date_time
+                theme_text_color: "Custom"
+                text_color: "black"
+                pos_hint: {"x": .1, "center_y": .25}
+                font_size: "15sp"
+                # bold: True
+                # opacity: 0
+
+        MDFloatLayout:
+            pos_hint: {"center_x": .9, "center_y": .5}
+            md_bg_color: "white"
+            radius: [20, ]
+            size_hint: 0.25, .9
+            Button:
+                pos_hint: {"center_x": .5, "center_y": .5}
+                opacity: 0
+                on_release:
+                    app.valide_task(root.task_name)
+                
+            FitImage:
+                source: root.image_name_out
+                pos_hint: {"center_x": .5, "center_y": .5}
+                theme_text_color: "Custom"
+                text_color: "black"
+                radius: [20, ]
+
+########################################
+<Line_gestion@OneLineListItem>:
+    date: ""
+    descrip: ""
+    tache: ""
+    heure: ""
+    action: ""
+
+    MDGridLayout:
+        rows: 1
+        cols: 5
+        size_hint: 1, 1
+        pos_hint: {"x": .05, "center_y": .5}
+        MDLabel:
+            text: root.date
+            pos_hint: {"center_x": .5, "center_y": .5}
+            theme_text_color: "Custom"
+            # text_color: ""
+            font_size: "14sp"
+        MDLabel:
+            text: root.descrip
+            pos_hint: {"center_x": .5, "center_y": .5}
+            theme_text_color: "Custom"
+            text_color: 0, 0, 1, .7
+
+        MDLabel:
+            text: root.tache
+            pos_hint: {"center_x": .5, "center_y": .5}
+        MDLabel:
+            text: root.heure
+            pos_hint: {"center_x": .5, "center_y": .5}
+            font_size: "15sp"
+            theme_text_color: "Custom"
+            text_color: "red"
+        MDLabel:
+            text: root.action
+            pos_hint: {"center_x": .5, "center_y": .5}
+            font_size: "13sp"
+        MDBoxLayout:
+            
+            MDFlatButton:
+                text: root.action
+                halign: "center"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                theme_text_color: "Custom"
+                text_color: "blue"
+            # MDFlatButton:
+            #     text: root.action1
+            #     halign: "center"
+            #     pos_hint: {"center_x": .5, "center_y": .5}
+            #     theme_text_color: "Custom"
+            #     text_color: "red"
+        MDLabel:
+            # text: root.stock
+            pos_hint: {"center_x": .5, "center_y": .5}
+            font_size: "13sp"
+#########################################
+<Rapport_action@MDFloatLayout>:
+    produit_nbr_serie: ""
+    date: ""
+    prix: ""
+    client: ""
+    paye: ""
+    nbr_article: ""
+    md_bg_color: "white"
+    pos_hint: {"center_x": .5, "center_y": .5}
+    size_hint: 0.5, .25
+    radius: [20, ]
+    action: ""
+    MDFloatLayout:
+        pos_hint: {"center_x": .5, "center_y": .5}
+        size_hint: 1, 1
+        MDLabel:
+            text: root.produit_nbr_serie
+            pos_hint: {"x": .1, "center_y": .9}
+            theme_text_color: "Custom"
+            text_color: "black"
+            bold: True
+            font_size: "16sp"
+        MDLabel:
+            text: root.date
+            pos_hint: {"x": .1, "center_y": .8}
+            theme_text_color: "Custom"
+            text_color: "black"
+            font_size: "14sp"
+            opacity: 0.5
+        MDLabel:
+            text: root.client
+            pos_hint: {"x": .1, "center_y": .5}
+            theme_text_color: "Custom"
+            text_color: "black"
+        MDLabel:
+            text: root.nbr_article
+            pos_hint: {"x": .1, "center_y": .4}
+            theme_text_color: "Custom"
+            text_color: "black"
+            opacity: 0.5
+            font_size: "12sp"
+        MDLabel:
+            text: root.paye
+            pos_hint: {"center_x": .75, "center_y": .8}
+            theme_text_color: "Custom"
+            halign: "center"
+            text_color: "black"
+            font_size: "14sp"
+            opacity: 0.7
+        MDLabel:
+            text: root.prix
+            pos_hint: {"x": .1, "center_y": .25}
+            theme_text_color: "Custom"
+            text_color: "black"
+            bold:True
+            font_size: "18sp"
+        MDTextButton:
+            text: root.action
+            pos_hint: {"center_x": .75, "center_y": .25}
+            theme_text_color: "Custom"
+            text_color: "black"
+            theme_text_color: "Custom"
+            text_color: "blue"
+            font_size: "12sp"
+
+##################################################################################################################"
+<Tache_termine_screen@MDScreen>:
+    name: "terminé"
+    date_actuelle:date_actuelle
+    liste_of_task_end:liste_of_task_end
+    MDFloatLayout:
+        md_bg_color: "#040A14"
+        orientation: 'vertical'
+        MDCard:
+            md_bg_color: "#040A14"
+            size_hint: .9, .2
+            radius: [20, ]
+            pos_hint: {"center_x": .5, "top": 1}
+            MDFloatLayout:
+                pos_hint: {"center_x": .5, "center_y": .5}
+                MDLabel:
+                    text: "Focusly"
+                    theme_text_color: "Custom"
+                    text_color: "#3d86e6"
+                    pos_hint: {"x": .05, "center_y": .75}
+                    font_size: "20sp"
+                    bold: True
+                MDLabel:
+                    text: "Tâches terminées"
+                    theme_text_color: "Custom"
+                    text_color: "white"
+                    pos_hint: {"x": .05, "center_y": .5}
+                    font_size: "20sp"
+                    bold: True
+                MDLabel:
+                    id: date_actuelle
+                    text: "Jusqu'au 15/02/2026"
+                    theme_text_color: "Custom"
+                    text_color: "white"
+                    pos_hint: {"x": .05, "center_y": .24}
+                    font_size: "15sp"
+                    opacity: 0.8
+                MDIcon:
+                    icon: "app_icon.png"
+                    pos_hint: {"center_x": .9, "center_y": .5}
+                    theme_text_color: "Custom"
+                    text_color: "black"
+                    font_size: "100sp"
+
+        
+        MDFloatLayout:
+            pos_hint: {"center_x": .5, "top": .8}
+            size_hint: 0.9, .75
+            radius: [20, ]
+            md_bg_color: "white"
+            ScrollView:
+                do_scroll_x: True
+                do_scroll_y: True
+                bar_color: "blue"
+                pos_hint: {"center_x": .5, "top": 1}
+                MDList:
+                    id: liste_of_task_end
+                    size_hint_x: 1.5
+                    pos_hint: {"center_x": .5, "top": 1}
+                    header:header
+                    OneLineListItem:
+                        id: header
+
+                        MDGridLayout:
+                            rows: 1
+                            cols: 5
+                            pos_hint: {"x": .05, "center_y": .5}
+                            MDLabel:
+                                text: "Date"
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                theme_text_color: "Custom"
+                                text_color: "black"
+                                opacity: 0.6
+                            MDLabel:
+                                text: "Description"
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                theme_text_color: "Custom"
+                                text_color: "black"
+                                opacity: 0.6
+                            MDLabel:
+                                text: "Tâche"
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                theme_text_color: "Custom"
+                                text_color: "black"
+                                opacity: 0.6
+                            MDLabel:
+                                text: "Heure"
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                theme_text_color: "Custom"
+                                text_color: "black"
+                                opacity: 0.6
+                            
+
+                            MDLabel:
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                font_size: "13sp"
+                    
+        MDProgressBar:
+            size_hint: 1, .001
+            value: 100
+            pos_hint: {"center_x":.5, "center_y": 0}
+            theme_text_color: "Custom"
+            color: "white"
+        MDFloatLayout:
+            size_hint: 1, .1
+            pos_hint: {"center_x":.5, "center_y": .05}
+##########################################
+<Input_cart@TextInput>:
+    id: a
+    pos_y: .1
+	hint_text: ""
+	size_hint: .9, .6
+	height: self.minimum_height
+	padding: 18
+	password: False
+	theme_text_color: "Custom"
+	cursor_color: "black"
+	background_color: "gray"
+	hint_text_color: "white"
+	pos_hint: {"center_x": .5, "center_y": root.pos_y}
+	multiline: False
+	halign: "left"
+	opacity: 0.8
+	font_size: "20sp"
+<Goback_item@MDCard>:
+    radius: [20,]
+	text_item: ""
+	icon_item: ""
+	orientation: "vertical"
+    MDFloatLayout:
+    	radius: [20,]
+    	pos_hint: {"center_x": .5, "center_y": .5}
+		md_bg_color: 0, 0, 1, 0.2
+		Button:
+    		text: ""
+			pos_hint: {"center_x": .5, "center_y": .5}
+			background_color: 0, 0, 1, 0.2
+    		radius: [20,]
+			opacity: 0
+			on_release: 
+		MDIcon:
+        	icon: root.icon_item
+    		pos_hint: {"x": .03, "center_y": .5}
+			font_size: "30sp"
+		MDLabel:
+    		text: root.text_item
+    		pos_hint: {"x": .29, "center_y": .5}
+			font_size: "20sp"
+########################################
+<Ajouter_taches_screen@MDScreen>:
+    name: "ajouter_tache_name"
+    task_input:task_input
+	date_date:date_date
+	time_time:time_time
+	note_task:note_task
+    MDFloatLayout:
+        md_bg_color: "#040A14"
+        orientation: 'vertical'
+        MDCard:
+            md_bg_color: "#040A14"
+            size_hint: .9, .2
+            radius: [20, ]
+            pos_hint: {"center_x": .5, "top": 1}
+            MDFloatLayout:
+                pos_hint: {"center_x": .5, "center_y": .5}
+                MDLabel:
+                    text: "Focusly"
+                    theme_text_color: "Custom"
+                    text_color: "#3d86e6"
+                    pos_hint: {"x": .05, "center_y": .75}
+                    font_size: "20sp"
+                    bold: True
+                MDLabel:
+                    text: "Ajouter une nouvelle tâches"
+                    theme_text_color: "Custom"
+                    text_color: "white"
+                    pos_hint: {"x": .05, "center_y": .2}
+                    font_size: "20sp"
+                    bold: True
+                MDIcon:
+                    icon: "app_icon.png"
+                    pos_hint: {"center_x": .9, "center_y": .5}
+                    theme_text_color: "Custom"
+                    text_color: "black"
+                    font_size: "100sp"
+                    # opacity: root.icon_bord_opacity
+
+        MDFloatLayout:
+            pos_hint: {"center_x": .5, "top": .8}
+            md_bg_color: "#d0d5df11"
+
+            MDFloatLayout:
+                size_hint_y: .15
+                # height: "400dp"
+                orientation: "vertical"
+                pos_hint: {"top": .95, "center_x": .5}
+                MDLabel:
+                    text: "Nom de la tâche"
+                    font_size: "20sp"
+                    theme_text_color: "Custom"
+                    text_color: "black"
+                    halign: "left"
+                    pos_hint: {"x": .07, "center_y": .85}
+                Input_cart:
+                    id: task_input
+                    hint_text: "Prototype"
+                    pos_y: .4
+                
+            MDFloatLayout:
+                size_hint_y: .15
+                # height: "400dp"
+                orientation: "vertical"
+                pos_hint: {"top": .77, "center_x": .5}
+                radius: [20, 20, 0, 0]
+                MDLabel:
+                    text: "Choisir la Date et l'heure"
+                    font_size: "20sp"
+                    theme_text_color: "Custom"
+                    text_color: "black"
+                    halign: "left"
+                    pos_hint: {"x": .07, "center_y": .85}
+                Input_cart:
+                    id: date_date
+                    hint_text: "Date"
+                    pos_y: .4
+                    halign: "center"
+                    on_focus: app.show_date_picker()
+                    size_hint: .4, .6
+                    pos_hint: {"center_x": .25, "center_y": .4}
+                    helper_text: "MM/DD/YYYY"
+                    mode: "persistent"
+
+                MDIconButton:
+                    icon: "calendar"
+                    icon_size: "15sp"
+                    pos_hint: {"x": .05, "center_y": .45}
+                    theme_text_color:  "Custom"
+                    text_color: "blue"
+                Input_cart:
+                    id: time_time
+                    hint_text: "Heure"
+                    pos_y: .4
+                    halign: "center"
+                    on_focus: app.show_time_picker()
+                    size_hint: .4, .6
+                    pos_hint: {"center_x": .75, "center_y": .4}
+                MDIconButton:
+                    icon: "clock-alert"
+                    theme_text_color: "Custom"
+                    icon_color:  "blue"
+                    icon_size: "15sp"
+                    pos_hint: {"x": .55, "center_y": .45}
+            MDFloatLayout:
+                size_hint_y: .25
+                # height: "400dp"
+                orientation: "vertical"
+                pos_hint: {"top": .6, "center_x": .5}
+                radius: [20, 20, 0, 0]
+                MDLabel:
+                    text: "Note"
+                    font_size: "20sp"
+                    theme_text_color: "Custom"
+                    text_color: "black"
+                    halign: "left"
+                    pos_hint: {"x": .07, "center_y": .85}
+                Input_cart:
+                    id: note_task
+                    hint_text: "Mobile Application"
+                    pos_y: .4
+                    size_hint: .9, .6
+                    pos_hint: {"center_x": .5, "center_y": .4}
+            MDFillRoundFlatButton:
+                text: "Ajouter"
+                theme_text_color: "Custom"
+                md_bg_color: "blue"
+                font_size: "18sp"
+                halign: "center"
+                size_hint: .8, .07
+                pos_hint: {"center_x": .5, "center_y": .25}
+                on_release: 
+                    # app.printable_data()
+                    app.ad_todo(task_input.text, date_date.text, time_time.text, note_task.text)
+        ######################################################
+
+                MDProgressBar:
+                    size_hint: 1, .001
+                    value: 100
+                    pos_hint: {"center_x":.5, "center_y": 0}
+                    theme_text_color: "Custom"
+                    color: "white"
+                MDFloatLayout:
+                    size_hint: 1, .1
+                    pos_hint: {"center_x":.5, "center_y": .05}
+##################################################################################################################"
+<Tableau_de_bord@MDScreen>:
+    date_actuelle: date_actuelle
+    name: "tableau_de_bord"
+    todo_list:todo_list
+    MDFloatLayout:
+        md_bg_color: "#040A14"
+        orientation: 'vertical'
+        MDCard:
+            md_bg_color: "#040A14"
+            size_hint: .9, .2
+            radius: [20, ]
+            pos_hint: {"center_x": .5, "top": 1}
+            MDFloatLayout:
+                pos_hint: {"center_x": .5, "center_y": .5}
+                MDLabel:
+                    text: "Focusly"
+                    theme_text_color: "Custom"
+                    text_color: "#3d86e6"
+                    pos_hint: {"x": .05, "center_y": .75}
+                    font_size: "20sp"
+                    bold: True
+                MDLabel:
+                    text: "Tableau de bord"
+                    theme_text_color: "Custom"
+                    text_color: "white"
+                    pos_hint: {"x": .05, "center_y": .5}
+                    font_size: "20sp"
+                    bold: True
+                MDLabel:
+                    id: date_actuelle
+                    text: "Aperçu de l'activité du 15/02/2026"
+                    theme_text_color: "Custom"
+                    text_color: "white"
+                    pos_hint: {"x": .05, "center_y": .24}
+                    font_size: "15sp"
+                    opacity: 0.8
+                MDIcon:
+                    icon: "app_icon.png"
+                    pos_hint: {"center_x": .9, "center_y": .5}
+                    theme_text_color: "Custom"
+                    text_color: "black"
+                    font_size: "100sp"
+                    # opacity: root.icon_bord_opacity
+        MDLabel:
+            text: "Mes Tâches"
+            theme_text_color: "Custom"
+            text_color: "white"
+            pos_hint: {"x": .1, "center_y": .8}
+            font_size: "25sp"
+            opacity: 0.8
+            bold: True
+        ScrollView:
+            pos_hint: {"center_x":.5, "top": .75}
+            do_scroll: False, True
+            size_hint: .9, 0.75
+            MDGridLayout:
+                id: todo_list
+                cols: 1
+                # rows: 3
+                pos_hint: {"center_x":.5, "top": .7}
+                size_hint_x: .9
+                size_hint_y: 0
+                spacing: 15
+                # md_bg_color: "red"
+################################################################################################################"
+    
+MDScreen:
+    navig: navig
+    name: "gestion_des_vente_home"
+    MDFloatLayout:
+        md_bg_color: "white"
+        MDBottomNavigation:
+            id: navig
+            pos_hint: {"center_x": .5, "y": 0}
+            panel_color:   "#040A14"
+            theme_text_color: "Custom"
+            text_color_active: "#1465f1"
+            on_text_color_normal: "red"
+            # selected_color_background: "orange"
+            text_color_normal: "gray"
+            line_color: "white"
+            acceuil_id : acceuil_id
+            ajout_id : ajout_id
+            termine_id : termine_id
+            MDBottomNavigationItem:
+                id: acceuil_id
+                name: "tableau_de_bord"
+                text: "Acceuil"
+                icon: "chart-pie"
+                tableau_de_bord_id:tableau_de_bord_id
+                Tableau_de_bord:
+                    id: tableau_de_bord_id
+            MDBottomNavigationItem:
+                id: ajout_id
+                name: "ajouter_taches_screen"
+                text: "Ajouter"
+                icon:  "plus"
+                ajouter_taches_screen_id : ajouter_taches_screen_id
+                Ajouter_taches_screen:
+                    id: ajouter_taches_screen_id
+
+            MDBottomNavigationItem:
+                id: termine_id
+                name: "termine"
+                text: "Tâches Terminées"
+                icon: "file-document-outline"
+                tache_termine_id:tache_termine_id
+                Tache_termine_screen:
+                    id: tache_termine_id
+            # MDBottomNavigationItem:
+            #     id: profile_id
+            #     name: "profile"
+            #     text: "Profil"
+            #     icon: "cog-outline"
+            #     MDScreen:
+            #         name: "screen 4"
+            #         MDFloatLayout:
+            #             id: data
+            #             pos_hint: {"center_x": .5, "center_y": .5}
+                

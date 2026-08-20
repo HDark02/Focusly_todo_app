@@ -1,0 +1,47 @@
+<TodoendCard>
+    id: end_text
+    # IconLeftWidget:
+    #     icon: root.icon
+        
+    MDCheckbox:
+        size_hint: None, None
+        size: "48dp", "48dp"
+        unseldected_color: 1, 170/255, 23/255, 1
+        selected_color: 0, 170/155, 0, 1
+        pos_hint: {"center_x": .95, "center_y": .5}
+        on_release:
+            app.re_todo_on_end(end_text.text)
+MDScreen:
+    name: "task_end" 
+    date: date
+    todo_list_end: todo_list_end
+    MDFloatLayout:
+        md_bg_color: "white"
+        MDLabel:
+            text: "Tâches terminées pour \njour"
+            font_size: 30
+            halign: "center"
+            pos_hint: {"center_x": .5, "center_y": .95}
+        MDLabel:
+            id: date
+            text: ""
+            font_size: 20
+            pos_hint: {"center_x": .565, "center_y": .89}
+        MDRaisedButton:
+            text: "Tâches du jour"
+            theme_text_color: "Custom"
+            md_bg_color: "white"
+            font_size: 35
+            text_color: "black"
+            pos_hint: {"center_x": .5, "top": 0.1}
+            on_release:
+                root.manager.transition.direction = "right"
+                root.manager.current = "main_screen"
+
+    ScrollView:
+        do_scrool_x: False
+        do_scrool_y: True
+        size_hint_y: 0.75
+        pos_hint: {"center_x":.5, "top": .85}
+        MDList:
+            id: todo_list_end
