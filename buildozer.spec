@@ -11,7 +11,7 @@ source.include_exts = py,kv,png,jpg,jpeg,json,ttf,atlas
 
 version = 0.1
 
-requirements = python3,kivy==3.0.0,kivymd==1.1.1
+requirements = python3,kivy==2.1.0,kivymd==1.1.1
 
 presplash.filename = app_icon.png
 
