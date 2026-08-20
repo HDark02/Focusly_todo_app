@@ -13,8 +13,6 @@ from kivy.uix.screenmanager import FadeTransition
 import json
 from kivymd.uix.card import MDCard
 import os
-# from plyer import notification
-# Window.size = (398, 804)#(464, 832)
 class Line_gestion(OneLineListItem):
     date= StringProperty()
     descrip= StringProperty()
@@ -219,26 +217,5 @@ class Todo(MDApp):
     def on_save_time(self, instance, time):
         screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.time_time.text = str(time)
 
-        
-#     def notification_job_time(self):
-#         notification.notify(
-#                 title="Army Daily Pilote",
-#                 # message= f"{task}, votre compte est créé avec succès!" ,
-#                 timeout= 5)
-#############################"
-
-# ScrollView:
-#             pos_hint: {"center_x":.5, "top": .75}
-#             do_scroll: False, True
-#             size_hint: .9, .8
-#             MDGridLayout:
-#                 id: todo_list
-#                 cols: 1
-#                 # rows: 3
-#                 pos_hint: {"center_x":.5, "top": .7}
-#                 size_hint: .9, 2.5
-#                 spacing: 15
-#                 # md_bg_color: "red"
-# #############################"""
 if __name__=="__main__":
     Todo().run()
