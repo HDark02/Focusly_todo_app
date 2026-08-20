@@ -7,7 +7,7 @@ title = Focusly
 package.name = Focusly_app
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.todo
+package.domain = org.test
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==2.1.0, kivymd==1.1.1, sdl2_ttf==2.0.15
+requirements = python3,kivy==2.1.0, kivymd==1.1.1, sdl2_ttf==2.0.15, pillow, plyer, pathlib, android
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -47,7 +47,7 @@ requirements = python3,kivy==2.1.0, kivymd==1.1.1, sdl2_ttf==2.0.15
 presplash.filename = app_icon.png
 
 # (str) Icon of the application
-icon.filename = check_icon.png
+icon.filename = app_icon.png
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
@@ -81,7 +81,7 @@ fullscreen = 0
 # red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray,
 # darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy,
 # olive, purple, silver, teal.
-# android.presplash_color = olive
+android.presplash_color = black
 
 # (string) Presplash animation using Lottie format.
 # see https://lottiefiles.com/ for examples and https://airbnb.design/lottie/
@@ -96,7 +96,7 @@ fullscreen = 0
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
 #android.permissions = android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
-# android.permissions = READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE
+android.permissions = READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
 android.manifest.application_attributes = android:requestLegacyExternalStorage="true"
