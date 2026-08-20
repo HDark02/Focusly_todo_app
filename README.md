@@ -79,7 +79,7 @@ Lorsqu'une tâche est terminée, elle est retirée de la liste active et ajouté
 ```text
 Focusly/
 │
-├── todo.py
+├── main.py
 ├── todo_main.kv
 ├── task_end.kv
 │
@@ -96,7 +96,7 @@ Focusly/
 
 | Fichier | Description |
 |---|---|
-| `todo.py` | Logique principale de l'application |
+| `main.py` | Logique principale de l'application |
 | `todo_main.kv` | Interfaces et composants graphiques |
 | `task_end.kv` | Interface liée aux tâches terminées |
 | `app_icon.png` | Icône principale de Focusly |
@@ -150,7 +150,7 @@ pip install kivymd
 Depuis le dossier du projet :
 
 ```bash
-python todo.py
+python main.py
 ```
 
 L'application démarre avec :
