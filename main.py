@@ -1,17 +1,13 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
-from kivy.core.window import Window
-from datetime import date, datetime
+from datetime import datetime
 from kivymd.uix.screenmanager import ScreenManager
 from kivymd.uix.list import OneLineListItem, ThreeLineIconListItem
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.animation import Animation
-from kivymd.uix.screen import MDScreen
 from kivymd.uix.pickers import MDTimePicker, MDDatePicker
 from kivymd.uix.floatlayout import MDFloatLayout
-from kivy.uix.screenmanager import FadeTransition
 import json
-from kivymd.uix.card import MDCard
 import os
 class Line_gestion(OneLineListItem):
     date= StringProperty()
