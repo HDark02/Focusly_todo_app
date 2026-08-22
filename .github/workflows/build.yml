@@ -7,6 +7,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -26,25 +29,33 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.buildozer
-          key: ${{ runner.os }}-buildozer-global
+          key: buildozer-global-${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
           restore-keys: |
-            ${{ runner.os }}-buildozer-global
+            buildozer-global-${{ runner.os }}-
 
       - name: Cache Buildozer directory in app
         uses: actions/cache@v4
         with:
           path: .buildozer
-          key: ${{ runner.os }}-buildozer-app
+          key: ${{ runner.os }}-buildozer-${{ github.run_id }}-${{ hashFiles('buildozer.spec') }}
           restore-keys: |
-            ${{ runner.os }}-buildozer-app
+            ${{ runner.os }}-buildozer-
 
       - name: Cache Android SDK
         uses: actions/cache@v4
         with:
           path: ~/.buildozer/android/platform/android-sdk
-          key: ${{ runner.os }}-android-sdk
+          key: ${{ runner.os }}-android-sdk-${{ steps.get-date.outputs.date }}
           restore-keys: |
-            ${{ runner.os }}-android-sdk
+            ${{ runner.os }}-android-sdk-
+
+      - name: Cache Android NDK
+        uses: actions/cache@v4
+        with:
+          path: ~/.buildozer/android/platform/android-ndk-r25b
+          key: ${{ runner.os }}-android-ndk-${{ steps.get-date.outputs.date }}
+          restore-keys: |
+            ${{ runner.os }}-android-ndk-
 
       # Install dependencies
       - name: Install dependencies
@@ -63,8 +74,7 @@ jobs:
             libavformat-dev \
             libavcodec-dev \
             libunwind-dev \
-            zlib1g-dev \
-            autoconf-archive
+            zlib1g-dev
           sudo apt-get install -y \
             libsqlite3-dev \
             sqlite3 \
@@ -85,18 +95,14 @@ jobs:
             unzip \
             autoconf \
             libtool \
-            automake \
-            libltdl-dev \
-            m4 \
             pkg-config \
             libncurses5-dev \
             libncursesw5-dev \
-            libtinfo6 \
+            libtinfo5 \
             cmake \
             libffi-dev \
             libssl-dev \
-            autopoint \
-            gettext
+            automake
 
       # Set up Java 17 required by Gradle
       - name: Setup Java 17 required by Gradle
@@ -109,13 +115,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11' #set your python version
+          python-version: '3.10.11' #set your python version
 
       # Install pip dependencies
       - name: Install pip dependencies
         run: |
           pip install --upgrade pip
-          pip install buildozer cython==3.0.11
+          pip install buildozer cython==0.29.33
 
       # Build with Buildozer
       - name: Build with Buildozer
@@ -133,3 +139,4 @@ jobs:
           path: |
             bin/*.apk
             bin/*.aab
+          retention-days: 3
