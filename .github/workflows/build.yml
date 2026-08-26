@@ -120,10 +120,10 @@ jobs:
       # Install pip dependencies
       - name: Install pip dependencies
         run: |
-          pip install --upgrade pip
-          pip install --pre "kivy[base]" kivy_examples
-          pip install kivymd==1.1.1
-          pip install buildozer cython==0.29.33
+          pip3 install --upgrade pip
+          pip3 install --pre "kivy[base]" kivy_examples
+          pip3 install kivymd==1.1.1
+          pip3 install buildozer cython==0.29.33
 
       # Build with Buildozer
       - name: Build with Buildozer
