@@ -115,12 +115,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10.11' #set your python version
+          python-version: '3.10.5' #set your python version
 
       # Install pip dependencies
       - name: Install pip dependencies
         run: |
           pip install --upgrade pip
+          pip install kivy[base] kivy_examples --pre --extra-index-url https://kivy.org/downloads/simple/
+          pip install kivymd==1.1.1
           pip install buildozer cython==0.29.33
 
       # Build with Buildozer
