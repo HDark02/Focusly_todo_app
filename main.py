@@ -1,14 +1,30 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
-from datetime import datetime
+from kivy.core.window import Window
+# from datetime import datetime
 from kivymd.uix.screenmanager import ScreenManager
 from kivymd.uix.list import OneLineListItem, ThreeLineIconListItem
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.animation import Animation
-from kivymd.uix.pickers import MDTimePicker, MDDatePicker
+# from kivymd.uix.screen import MDScreen
 from kivymd.uix.floatlayout import MDFloatLayout
+# from kivy.uix.screenmanager import FadeTransition
 import json
+# from kivymd.uix.card import MDCard
+import datetime 
+import time
+import threading
 import os
+import pygame
+from pathlib import Path
+pygame.mixer.init()
+
+# from plyer import notification
+Window.keyboard_anim_args ={'d': .2, 't': 'in_out_expo'}
+Window.softinput_mode = "below_target"
+# Window.size = (550, 840)
+# Window._set_top(10)
+# Window._set_left(450)
 class Line_gestion(OneLineListItem):
     date= StringProperty()
     descrip= StringProperty()
@@ -29,8 +45,8 @@ class TodoendCard(ThreeLineIconListItem):
     image_source = StringProperty()
 class Todo(MDApp):
     def on_start(self):
-        screen_manager.get_screen("gestion_des_vente_home").navig.acceuil_id.tableau_de_bord_id.date_actuelle.text = f"Aperçu de l'activité du {datetime.now().strftime('%d/%m/%Y')}"
-        screen_manager.get_screen("gestion_des_vente_home").navig.termine_id.tache_termine_id.date_actuelle.text = f"Jusqu'au {datetime.now().strftime('%d/%m/%Y')}"
+        screen_manager.get_screen("gestion_des_vente_home").navig.acceuil_id.tableau_de_bord_id.date_actuelle.text = f"Aperçu de l'activité du {datetime.datetime.now().strftime('%d/%m/%Y')}"
+        screen_manager.get_screen("gestion_des_vente_home").navig.termine_id.tache_termine_id.date_actuelle.text = f"Jusqu'au {datetime.datetime.now().strftime('%d/%m/%Y')}"
                    
         self.load_data()
         self.load_end_task_data()
@@ -49,6 +65,8 @@ class Todo(MDApp):
                         new_task=Task_bord_card(task_name=task_input,
                                                     date_time=str(time_time) ,
                                                     note = task_note)
+                        date_time_full=time_time.split("  ")
+                        self.start_alarm(date_time_full[1], date_time_full[0])
                         screen_manager.get_screen("gestion_des_vente_home").navig.acceuil_id.tableau_de_bord_id.todo_list.add_widget(new_task)
 
 #########################################################################################
@@ -56,6 +74,8 @@ class Todo(MDApp):
   
     def ad_todo(self, task_input, date_date, time_time, task_note):
         if task_input.strip():  # Vérifie si la tâche n'est pas vide
+
+            self.start_alarm(date_date, time_time)
             new_task=Task_bord_card(task_name=task_input,
                                      date_time=str(time_time +"  "+ str(date_date)) ,
                                      note = task_note)
@@ -75,16 +95,17 @@ class Todo(MDApp):
     def valide_task(self, index_name):
         todo_list = screen_manager.get_screen("gestion_des_vente_home").navig.acceuil_id.tableau_de_bord_id.todo_list
         # Rechercher le widget à supprimer
+        self.stop_alarm()
         for tache in todo_list.children:
             if tache.task_name == index_name:
-                time_up = "Terminé à " +str(datetime.now().strftime("%H:%M:%S %p"))
+                time_up_note= "Terminé à " +str(datetime.datetime.now().strftime("%H:%M:%S %p"))
+                time_up = str(datetime.datetime.now().strftime("%H:%M:%S %p"))
                 task_note = tache.note
-                date = str(datetime.now().strftime("%d/%m/%Y"))
                 screen_manager.get_screen("gestion_des_vente_home").navig.acceuil_id.tableau_de_bord_id.todo_list.size_hint_y -= 0.17
-                screen_manager.get_screen("gestion_des_vente_home").navig.termine_id.tache_termine_id.liste_of_task_end.add_widget(Line_gestion(date= date,
-                                                                                                                                                            descrip= task_note,
-                                                                                                                                                            tache= tache.task_name,
-                                                                                                                                                            heure= time_up))
+                screen_manager.get_screen("gestion_des_vente_home").navig.termine_id.tache_termine_id.liste_of_task_end.add_widget(Line_gestion(date= str(time_up),
+                                                                                                                                                descrip= task_note,
+                                                                                                                                                tache= tache.task_name,
+                                                                                                                                                heure= time_up_note))
                 todo_list.remove_widget(tache)
     def save_end_tasks(self, task_name, date_time ,note):
             tasks_end_do={"all_data_end": [] }
@@ -114,13 +135,13 @@ class Todo(MDApp):
                     task_input=task["task_end_do_title"]
                     time_time=task["time_end_do"]
                     task_note=task["note_end_do"]
-                    
+                    date_end_do=task["date_end_do"]
                     if task_input.strip():  # Vérifie si la tâche n'est pas vide
-                    
-                        screen_manager.get_screen("gestion_des_vente_home").navig.termine_id.tache_termine_id.liste_of_task_end.add_widget(Line_gestion(date= str(date),
-                                                                                                                                                                descrip= task_note,
-                                                                                                                                                                tache= task_input,
-                                                                                                                                                                heure= str(time_time)))      
+                        # date = str(datetime.datetime.now().strftime("%d/%m/%Y"))
+                        screen_manager.get_screen("gestion_des_vente_home").navig.termine_id.tache_termine_id.liste_of_task_end.add_widget(Line_gestion(date=date_end_do,
+                                                                                                                                            descrip= task_note,
+                                                                                                                                            tache= task_input,
+                                                                                                                                            heure= str(time_time)) )    
     def save_tasks(self, task_name, date_time ,note):
         if os.path.exists("tasks_not_do.json"):
             with open("tasks_not_do.json", "r") as file:
@@ -153,18 +174,36 @@ class Todo(MDApp):
                 }
                             
         todo_list = screen_manager.get_screen("gestion_des_vente_home").navig.acceuil_id.tableau_de_bord_id.todo_list
-            # Rechercher le widget à supprimer
-        for tache in todo_list.children:
+            # Rechercher le widget à sauvegarder
 
-            task_not_do={"task_not_do_title": tache.task_name,
-                "note_not_do": tache.note,
-                "time_not_do": tache.date_time
-                }
+        try:
+            if len(todo_list.children)==0:
+                chemin_fichier="tasks_not_do.json"
+                fichier = Path(chemin_fichier)
+                try:
+                    if fichier.is_file():
+                        fichier.unlink()
+                        print(f"✅ Fichier supprimé : {chemin_fichier}")
+                    else:
+                        print(f"⚠️ Le fichier '{chemin_fichier}' n'existe pas.")
+                except PermissionError:
+                    print(f"❌ Permission refusée pour supprimer : {chemin_fichier}")
+                except OSError as e:
+                    print(f"❌ Erreur lors de la suppression : {e}")
+                todo_list.clear_widgets()
+            for tache in todo_list.children:
 
-            tasks_not_do["all_data"].append(task_not_do)
+                task_not_do={"task_not_do_title": tache.task_name,
+                    "note_not_do": tache.note,
+                    "time_not_do": tache.date_time
+                    }
 
-            with open("tasks_not_do.json", "w") as file:
-                json.dump(tasks_not_do, file, indent= 4)
+                tasks_not_do["all_data"].append(task_not_do)
+
+                with open("tasks_not_do.json", "w") as file:
+                    json.dump(tasks_not_do, file, indent= 4)
+        except:
+            pass
 
     def save_end_stop_task(self):
         tasks_end_do={
@@ -176,9 +215,10 @@ class Todo(MDApp):
             # Rechercher le widget à supprimer
         for tache in todo_list_end.children:
             try:
-                task_not_do={"task_end_do_title": tache.heure,
+                task_not_do={"task_end_do_title": tache.tache,
+                    "time_end_do": tache.heure,
                     "note_end_do": tache.descrip,
-                    "time_end_do": tache.date
+                    "date_end_do": tache.date
                     }
 
                 tasks_end_do["all_data_end"].append(task_not_do)
@@ -187,31 +227,78 @@ class Todo(MDApp):
                     json.dump(tasks_end_do, file, indent= 4)
             except Exception as e:
                 print(f"Error saving end task: {e}")
+    def clean_end(self):
+        tasks_end_do={
+            "all_data_end": []
+                }
+        try:
+            screen_manager.get_screen("gestion_des_vente_home").navig.termine_id.tache_termine_id.liste_of_task_end.clear_widgets()
+            with open("tasks_end_not_do.json", "w") as file:
+                json.dump(tasks_end_do, file, indent= 4)
+        except Exception as e:
+            print(f"Error saving end task: {e}")
+    #########################################""
     def build(self):
+        self.alarm_datetime = None
+        self.sound_file = None
+        self.alarm_thread = None
+        self.stop_alarm_flag = False
+
         global screen_manager
         screen_manager = ScreenManager()
         screen_manager.add_widget(Builder.load_file("todo_main.kv"))
              
         return screen_manager
+    def start_alarm(self, date_str, time_str):
+        """Démarre le thread de l'alarme avec date complète."""
+        try:
+            date_init=date_str.split("/")
+            time_init=time_str.split(":")
+            day = int(date_init[0])
+            month = int(date_init[1])
+            year = int(date_init[2])
+            hour = int(time_init[0])
+            minute = int(time_init[1])
 
-    #add date to the new task
-    def on_save(self, instance, value, date_range):
-        screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.date_date.text = str(value).replace("-", "/")
+            self.alarm_datetime = datetime.datetime(year, month, day, hour, minute)
 
-    def on_cancel(self, instance, value):
-       pass
-    #pick the date
-    def show_date_picker(self):
-        date_dialog = MDDatePicker()
-        date_dialog.bind(on_save=self.on_save, on_cancel=self.on_cancel)
-        date_dialog.open()
-    #############################
-    def show_time_picker(self):
-        time_dialog = MDTimePicker()
-        time_dialog.bind(on_save=self.on_save_time, on_cancel=self.on_cancel)
-        time_dialog.open()
-    def on_save_time(self, instance, time):
-        screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.time_time.text = str(time)
+            if self.alarm_datetime <= datetime.datetime.now():
+                screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.info_error.text = "⛔ La date/heure doit être dans le futur."
+                screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.info_error.opacity = 1
+                return
+            screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.info_error.opacity = 0
+            self.stop_alarm_flag = False
+            self.alarm_thread = threading.Thread(target=self.run_alarm, daemon=True)
+            self.alarm_thread.start()
 
+        except ValueError:
+            screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.info_error.text = "⛔ Entrée invalide. Vérifiez la date et l'heure."
+            screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.info_error.opacity = 1
+    def run_alarm(self):
+        """Boucle qui attend la date et l'heure de l'alarme."""
+        while not self.stop_alarm_flag:
+            now = datetime.datetime.now()
+            if now >= self.alarm_datetime:
+                # self.status_label.text = "⏰ ALARME !"
+                self.play_alarm_sound()
+                break
+            time.sleep(1)
+
+    def play_alarm_sound(self):
+        """Joue le son de l'alarme en boucle jusqu'à arrêt."""
+        try:
+            pygame.mixer.music.load("alarm_song.mp3")
+            pygame.mixer.music.play(-1)  # -1 = boucle infinie
+        except:
+            print("\a")  # Bip console
+
+    def stop_alarm(self):
+        """Arrête l'alarme immédiatement."""
+        self.stop_alarm_flag = True
+        pygame.mixer.music.stop()
+        # self.status_label.text = "✅ Alarme arrêtée"
+
+
+# #############################"""
 if __name__=="__main__":
     Todo().run()

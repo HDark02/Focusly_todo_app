@@ -229,7 +229,7 @@
         
         MDFloatLayout:
             pos_hint: {"center_x": .5, "top": .8}
-            size_hint: 0.9, .75
+            size_hint: 0.9, .7
             radius: [20, ]
             md_bg_color: "white"
             ScrollView:
@@ -278,7 +278,16 @@
                             MDLabel:
                                 pos_hint: {"center_x": .5, "center_y": .5}
                                 font_size: "13sp"
-                    
+        MDFillRoundFlatButton:
+            text: "Nettoyé l'historique"
+            theme_text_color: "Custom"
+            md_bg_color: "blue"
+            font_size: "18sp"
+            halign: "center"
+            size_hint: .8, .07
+            pos_hint: {"center_x": .5, "center_y": .05}
+            on_release: 
+                app.clean_end()
         MDProgressBar:
             size_hint: 1, .001
             value: 100
@@ -337,6 +346,7 @@
 	date_date:date_date
 	time_time:time_time
 	note_task:note_task
+    info_error:info_error
     MDFloatLayout:
         md_bg_color: "#040A14"
         orientation: 'vertical'
@@ -371,7 +381,7 @@
 
         MDFloatLayout:
             pos_hint: {"center_x": .5, "top": .8}
-            md_bg_color: "#d0d5df11"
+            md_bg_color: "#e1ececdc"
 
             MDFloatLayout:
                 size_hint_y: .15
@@ -405,15 +415,14 @@
                     pos_hint: {"x": .07, "center_y": .85}
                 Input_cart:
                     id: date_date
-                    hint_text: "Date"
+                    hint_text: "DD/MM/YYYY"
                     pos_y: .4
                     halign: "center"
-                    on_focus: app.show_date_picker()
+                    # on_focus: app.show_date_picker()
                     size_hint: .4, .6
                     pos_hint: {"center_x": .25, "center_y": .4}
-                    helper_text: "MM/DD/YYYY"
-                    mode: "persistent"
-
+                    
+                    
                 MDIconButton:
                     icon: "calendar"
                     icon_size: "15sp"
@@ -422,12 +431,13 @@
                     text_color: "blue"
                 Input_cart:
                     id: time_time
-                    hint_text: "Heure"
+                    hint_text: "HH:MM"
                     pos_y: .4
                     halign: "center"
-                    on_focus: app.show_time_picker()
+                    # on_focus: app.show_time_picker()
                     size_hint: .4, .6
                     pos_hint: {"center_x": .75, "center_y": .4}
+
                 MDIconButton:
                     icon: "clock-alert"
                     theme_text_color: "Custom"
@@ -453,6 +463,15 @@
                     pos_y: .4
                     size_hint: .9, .6
                     pos_hint: {"center_x": .5, "center_y": .4}
+            MDLabel:
+                id: info_error
+                text: "Choisir la Date et l'heure"
+                font_size: "15sp"
+                theme_text_color: "Custom"
+                text_color: "red"
+                halign: "center"
+                opacity: 0
+                pos_hint: {"center_x": .5, "center_y": .6}
             MDFillRoundFlatButton:
                 text: "Ajouter"
                 theme_text_color: "Custom"
