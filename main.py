@@ -6,20 +6,18 @@ from kivymd.uix.screenmanager import ScreenManager
 from kivymd.uix.list import OneLineListItem, ThreeLineIconListItem
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.animation import Animation
-# from kivymd.uix.screen import MDScreen
 from kivymd.uix.floatlayout import MDFloatLayout
-# from kivy.uix.screenmanager import FadeTransition
 import json
 # from kivymd.uix.card import MDCard
 import datetime 
 import time
 import threading
 import os
-import pygame
+# import pygame
 from pathlib import Path
-pygame.mixer.init()
+# pygame.mixer.init()
 
-# from plyer import notification
+from plyer import notification
 Window.keyboard_anim_args ={'d': .2, 't': 'in_out_expo'}
 Window.softinput_mode = "below_target"
 # Window.size = (550, 840)
@@ -280,24 +278,30 @@ class Todo(MDApp):
             now = datetime.datetime.now()
             if now >= self.alarm_datetime:
                 # self.status_label.text = "⏰ ALARME !"
-                self.play_alarm_sound()
+                # self.play_alarm_sound()
+                self.notificaiton_action("Exécuté votre tâche maintenant!")
+
                 break
             time.sleep(1)
 
-    def play_alarm_sound(self):
-        """Joue le son de l'alarme en boucle jusqu'à arrêt."""
-        try:
-            pygame.mixer.music.load("alarm_song.mp3")
-            pygame.mixer.music.play(-1)  # -1 = boucle infinie
-        except:
-            print("\a")  # Bip console
+    # def play_alarm_sound(self):
+    #     """Joue le son de l'alarme en boucle jusqu'à arrêt."""
+    #     try:
+    #         pygame.mixer.music.load("alarm_song.mp3")
+    #         pygame.mixer.music.play(-1)  # -1 = boucle infinie
+    #     except:
+    #         print("\a")  # Bip console
 
     def stop_alarm(self):
         """Arrête l'alarme immédiatement."""
         self.stop_alarm_flag = True
-        pygame.mixer.music.stop()
+    #     pygame.mixer.music.stop()
         # self.status_label.text = "✅ Alarme arrêtée"
-
+    def notificaiton_action(self, message):
+        notification.notify(
+                            title="Focusly",
+                            message= message ,
+                        timeout= 5)
 
 # #############################"""
 if __name__=="__main__":
