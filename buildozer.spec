@@ -37,18 +37,7 @@ version = 0.2
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,
-    https://github.com/kivymd/KivyMD/archive/master.zip,
-    materialyoucolor==3.0.3,
-    materialshapes,
-    pycairo,
-    pillow,
-    exceptiongroup,
-    asyncgui,
-    asynckivy,
-    plyer,
-    android,
-# requirements = python3,kivy==2.3.1,kivymd==1.1.1,pillow,plyer, pyjnius==1.7.0
+requirements = python3,kivy==2.3.1,kivymd==1.1.1,pillow,plyer, pyjnius==1.7.0
 # The only good modules which are compatible with convertor right now. Other modules may not work properly on android.
 # And i also look for the rest of the modules which are compatible with convertor. If you find any, please let me know.
 # kivy==2.3.1
@@ -302,7 +291,7 @@ android.accept_sdk_license = True
 
 # (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
 # In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
-android.archs = arm64-v8a, armeabi-v7a
+android.archs = armeabi-v7a
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing
