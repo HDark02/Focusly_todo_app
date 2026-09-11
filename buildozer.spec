@@ -4,16 +4,16 @@
 title = Focusly
 
 # (str) Package name
-package.name = focuslyr_app
+package.name = focusly_app
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = org.productivity
 
 # (str) Source code where the main.py live
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas
+source.include_exts = py,kv,png,jpg,jpeg,json,atlas,mp3,wav
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,kv,atlas
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.1
+version = 0.2
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -37,7 +37,14 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==2.3.1,kivymd==1.1.1,pillow,plyer, pygame==2.6.1
+requirements = python3,kivy==2.3.1,kivymd==1.1.1,pillow,plyer, pyjnius==1.7.0
+# The only good modules which are compatible with convertor right now. Other modules may not work properly on android.
+# And i also look for the rest of the modules which are compatible with convertor. If you find any, please let me know.
+# kivy==2.3.1
+# kivymd==1.1.1
+# pillow
+# plyer
+# pygame==2.6.1
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
@@ -54,7 +61,7 @@ orientation = portrait
 
 # (list) List of service to declare
 #services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
-
+services = ServiceNotify:service.py
 #
 # OSX Specific
 #

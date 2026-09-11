@@ -15,6 +15,7 @@ import threading
 import os
 # import pygame
 from pathlib import Path
+from kivy.utils import platform
 # pygame.mixer.init()
 
 from plyer import notification
@@ -33,7 +34,7 @@ class Task_bord_card(MDFloatLayout):
     note= StringProperty()
     date_time=  StringProperty()
     image_name_out=  "check_icon.png"
-class TodoendCard(ThreeLineIconListItem):
+class FocuslyendCard(ThreeLineIconListItem):
     text= StringProperty()
     secondary_text = StringProperty()
     tertiary_text = StringProperty()
@@ -41,7 +42,7 @@ class TodoendCard(ThreeLineIconListItem):
     font_size = StringProperty()
     # font_style = StringProperty()
     image_source = StringProperty()
-class Todo(MDApp):
+class Focusly(MDApp):
     def on_start(self):
         screen_manager.get_screen("gestion_des_vente_home").navig.acceuil_id.tableau_de_bord_id.date_actuelle.text = f"Aperçu de l'activité du {datetime.datetime.now().strftime('%d/%m/%Y')}"
         screen_manager.get_screen("gestion_des_vente_home").navig.termine_id.tache_termine_id.date_actuelle.text = f"Jusqu'au {datetime.datetime.now().strftime('%d/%m/%Y')}"
@@ -241,7 +242,12 @@ class Todo(MDApp):
         self.sound_file = None
         self.alarm_thread = None
         self.stop_alarm_flag = False
+        self.alarm_thread = threading.Thread(
+            target=self.run_alarm,
+            daemon=True
+        )
 
+        self.alarm_thread.start()
         global screen_manager
         screen_manager = ScreenManager()
         screen_manager.add_widget(Builder.load_file("todo_main.kv"))
@@ -279,10 +285,12 @@ class Todo(MDApp):
             if now >= self.alarm_datetime:
                 # self.status_label.text = "⏰ ALARME !"
                 # self.play_alarm_sound()
-                self.notificaiton_action("Exécuté votre tâche maintenant!")
+                self.notificaiton_action()
 
                 break
             time.sleep(1)
+
+    time.sleep(1)
 
     # def play_alarm_sound(self):
     #     """Joue le son de l'alarme en boucle jusqu'à arrêt."""
@@ -297,12 +305,41 @@ class Todo(MDApp):
         self.stop_alarm_flag = True
     #     pygame.mixer.music.stop()
         # self.status_label.text = "✅ Alarme arrêtée"
-    def notificaiton_action(self, message):
-        notification.notify(
-                            title="Focusly",
-                            message= message ,
-                        timeout= 5)
+    def notificaiton_action(self):
+        if platform != "android":
+            self.status.text = (
+                "Cette fonction est disponible sur Android."
+            )
+            return
+
+        try:
+            from jnius import autoclass
+
+            # Classe du service générée par python-for-android
+            ServiceNotify = autoclass(
+                "org.productivity.focusly_app.ServiceNotify"
+            )
+
+            # Activité Android principale
+            PythonActivity = autoclass(
+                "org.kivy.android.PythonActivity"
+            )
+
+            activity = PythonActivity.mActivity
+
+            # Lance le service
+            ServiceNotify.start(
+                activity,
+                "",
+                "Focusly",
+                "Exécuté votre tâche maintenant!",
+                ""
+            )
+
+        except Exception as e:
+
+            print("SERVICE ERROR:", e)
 
 # #############################"""
 if __name__=="__main__":
-    Todo().run()
+    Focusly().run()
