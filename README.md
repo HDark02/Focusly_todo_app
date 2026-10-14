@@ -32,6 +32,7 @@ Les tâches sont enregistrées localement dans des fichiers JSON afin de conserv
 
 ## 🖼️ Screenshots
 <img width="1600" height="900" alt="831240205_2612239802616896_3895224808165310641_n" src="https://github.com/user-attachments/assets/d0ef0f71-e044-4ec9-ae28-f1baa79380da" />
+
 ## 🖥️ Interface
 
 L'application est organisée autour de trois espaces principaux :
