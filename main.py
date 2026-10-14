@@ -1,28 +1,26 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
-# from datetime import datetime
 from kivymd.uix.screenmanager import ScreenManager
 from kivymd.uix.list import OneLineListItem, ThreeLineIconListItem
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.animation import Animation
 from kivymd.uix.floatlayout import MDFloatLayout
 import json
-# from kivymd.uix.card import MDCard
 import datetime 
 import time
 import threading
 import os
-# import pygame
+import pygame
 from pathlib import Path
-from kivy.utils import platform
-# pygame.mixer.init()
+pygame.mixer.init()
 
 from plyer import notification
 Window.keyboard_anim_args ={'d': .2, 't': 'in_out_expo'}
 Window.softinput_mode = "below_target"
+# Window.size = (600, 700)
 # Window.size = (550, 840)
-# Window._set_top(10)
+# Window._set_top(40)
 # Window._set_left(450)
 class Line_gestion(OneLineListItem):
     date= StringProperty()
@@ -34,7 +32,7 @@ class Task_bord_card(MDFloatLayout):
     note= StringProperty()
     date_time=  StringProperty()
     image_name_out=  "check_icon.png"
-class FocuslyendCard(ThreeLineIconListItem):
+class TodoendCard(ThreeLineIconListItem):
     text= StringProperty()
     secondary_text = StringProperty()
     tertiary_text = StringProperty()
@@ -42,11 +40,13 @@ class FocuslyendCard(ThreeLineIconListItem):
     font_size = StringProperty()
     # font_style = StringProperty()
     image_source = StringProperty()
-class Focusly(MDApp):
+class Todo(MDApp):
     def on_start(self):
         screen_manager.get_screen("gestion_des_vente_home").navig.acceuil_id.tableau_de_bord_id.date_actuelle.text = f"Aperçu de l'activité du {datetime.datetime.now().strftime('%d/%m/%Y')}"
         screen_manager.get_screen("gestion_des_vente_home").navig.termine_id.tache_termine_id.date_actuelle.text = f"Jusqu'au {datetime.datetime.now().strftime('%d/%m/%Y')}"
-                   
+        screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.date_date.text = f"{datetime.datetime.now().strftime('%d/%m/%Y')}"
+        screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.time_time.text = str(datetime.datetime.now().strftime("%H:%M:%S"))
+
         self.load_data()
         self.load_end_task_data()
     #     screen_manager.current = "gestion_des_vente_home"
@@ -81,10 +81,10 @@ class Focusly(MDApp):
             screen_manager.get_screen("gestion_des_vente_home").navig.acceuil_id.tableau_de_bord_id.todo_list.size_hint_y += 0.17
             screen_manager.get_screen("gestion_des_vente_home").navig.acceuil_id.tableau_de_bord_id.todo_list.add_widget(new_task)
             screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.task_input.text = ""
-            screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.date_date.text = ""
-            screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.time_time.text = ""
+            screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.date_date.text = f"{datetime.datetime.now().strftime('%d/%m/%Y')}"
+            screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.time_time.text = str(datetime.datetime.now().strftime("%H:%M:%S %p"))
             screen_manager.get_screen("gestion_des_vente_home").navig.ajout_id.ajouter_taches_screen_id.note_task.text = ""
-                        
+
             # Applique une animation pour faire apparaître la tâche
             animation = Animation(opacity=1, d=0.5)  # Animation d'apparition
             new_task.opacity = 0  # Commence avec une opacité de 0
@@ -242,12 +242,7 @@ class Focusly(MDApp):
         self.sound_file = None
         self.alarm_thread = None
         self.stop_alarm_flag = False
-        self.alarm_thread = threading.Thread(
-            target=self.run_alarm,
-            daemon=True
-        )
-
-        self.alarm_thread.start()
+        self.icon = "app_icon.png"
         global screen_manager
         screen_manager = ScreenManager()
         screen_manager.add_widget(Builder.load_file("todo_main.kv"))
@@ -284,62 +279,32 @@ class Focusly(MDApp):
             now = datetime.datetime.now()
             if now >= self.alarm_datetime:
                 # self.status_label.text = "⏰ ALARME !"
-                # self.play_alarm_sound()
-                self.notificaiton_action()
-
+                self.play_alarm_sound()
                 break
             time.sleep(1)
 
-    time.sleep(1)
-
-    # def play_alarm_sound(self):
-    #     """Joue le son de l'alarme en boucle jusqu'à arrêt."""
-    #     try:
-    #         pygame.mixer.music.load("alarm_song.mp3")
-    #         pygame.mixer.music.play(-1)  # -1 = boucle infinie
-    #     except:
-    #         print("\a")  # Bip console
+    def play_alarm_sound(self):
+        """Joue le son de l'alarme en boucle jusqu'à arrêt."""
+        try:
+            self.notif()
+            pygame.mixer.music.load("alarm_song.mp3")
+            pygame.mixer.music.play(-1)  # -1 = boucle infinie
+        except:
+            print("\a")  # Bip console
 
     def stop_alarm(self):
         """Arrête l'alarme immédiatement."""
         self.stop_alarm_flag = True
-    #     pygame.mixer.music.stop()
+        pygame.mixer.music.stop()
         # self.status_label.text = "✅ Alarme arrêtée"
-    def notificaiton_action(self):
-        if platform != "android":
-            self.status.text = (
-                "Cette fonction est disponible sur Android."
+    def notif(self):
+        notification.notify(
+                title=f"Focusly",
+                message= "Ta tâche du jour",
+                app_icon="app_icon.ico",
+                timeout= 5
             )
-            return
-
-        try:
-            from jnius import autoclass
-
-            # Classe du service générée par python-for-android
-            ServiceNotify = autoclass(
-                "org.productivity.focusly_app.ServiceNotify"
-            )
-
-            # Activité Android principale
-            PythonActivity = autoclass(
-                "org.kivy.android.PythonActivity"
-            )
-
-            activity = PythonActivity.mActivity
-
-            # Lance le service
-            ServiceNotify.start(
-                activity,
-                "",
-                "Focusly",
-                "Exécuté votre tâche maintenant!",
-                ""
-            )
-
-        except Exception as e:
-
-            print("SERVICE ERROR:", e)
 
 # #############################"""
 if __name__=="__main__":
-    Focusly().run()
+    Todo().run()
